@@ -1,12 +1,10 @@
 package ru.yandex.praktikum.taskmanager.taskmanager;
 
-import ru.yandex.praktikum.taskmanager.historymanager.HistoryManager;
 import ru.yandex.praktikum.taskmanager.historymanager.InMemoryHistoryManager;
 import ru.yandex.praktikum.taskmanager.tasks.Epic;
 import ru.yandex.praktikum.taskmanager.tasks.Subtask;
 import ru.yandex.praktikum.taskmanager.tasks.Task;
-import ru.yandex.praktikum.taskmanager.tasks.taskStatus;
-
+import ru.yandex.praktikum.taskmanager.tasks.TaskStatus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +16,10 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Epic> epicHashMap = new HashMap<>();
     private HashMap<Integer, Subtask> subtaskHashMap = new HashMap<>();
     InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+
+    public InMemoryTaskManager(InMemoryHistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
 
     @Override
     public int addEpic(Epic epic) {
@@ -131,7 +133,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Subtask> getSubtaskOfEpic(int id) {
+    public List<Subtask> getSubtaskOfEpic(int id) {
         ArrayList<Subtask> subtasks = new ArrayList<>();
         Epic epic = epicHashMap.get(id);
         for (int i : epic.getSubtaskId()) {
@@ -179,18 +181,18 @@ public class InMemoryTaskManager implements TaskManager {
 
             Subtask subtask = subtaskHashMap.get(id);
 
-            if (subtask.getTaskStatus() == taskStatus.NEW) {
+            if (subtask.getTaskStatus() == TaskStatus.NEW) {
                 countNew++;
-            } else if (subtask.getTaskStatus() == taskStatus.DONE) {
+            } else if (subtask.getTaskStatus() == TaskStatus.DONE) {
                 countDone++;
             }
         }
         if (countNew == epic.getSubtaskIdSize() || epic.getSubtaskIdSize() == 0) {
-            epic.setTaskStatus(taskStatus.NEW);
+            epic.setTaskStatus(TaskStatus.NEW);
         } else if (countDone == epic.getSubtaskIdSize()) {
-            epic.setTaskStatus(taskStatus.DONE);
+            epic.setTaskStatus(TaskStatus.DONE);
         } else {
-            epic.setTaskStatus(taskStatus.IN_PROGRESS);
+            epic.setTaskStatus(TaskStatus.IN_PROGRESS);
         }
 
     }

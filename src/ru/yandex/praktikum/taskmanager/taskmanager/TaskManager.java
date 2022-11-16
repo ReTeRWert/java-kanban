@@ -3,9 +3,7 @@ package ru.yandex.praktikum.taskmanager.taskmanager;
 import ru.yandex.praktikum.taskmanager.tasks.Epic;
 import ru.yandex.praktikum.taskmanager.tasks.Subtask;
 import ru.yandex.praktikum.taskmanager.tasks.Task;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
@@ -35,7 +33,7 @@ public interface TaskManager {
 
     public void removeSubtaskById(int id);
 
-    public ArrayList<Subtask> getSubtaskOfEpic(int id);
+    public List<Subtask> getSubtaskOfEpic(int id);
 
     public void updateTask(Task task);
 

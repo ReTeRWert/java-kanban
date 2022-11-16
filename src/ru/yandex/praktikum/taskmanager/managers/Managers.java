@@ -11,7 +11,7 @@ import ru.yandex.praktikum.taskmanager.tasks.Task;
 public class Managers {
 
     private static InMemoryHistoryManager InMemoryHistoryManager = new InMemoryHistoryManager();
-    private static InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+    private static InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager(InMemoryHistoryManager);
 
 
 
