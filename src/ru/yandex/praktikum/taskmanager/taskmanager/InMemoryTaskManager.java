@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.taskmanager.taskmanager;
 
+import ru.yandex.praktikum.taskmanager.historymanager.HistoryManager;
 import ru.yandex.praktikum.taskmanager.historymanager.InMemoryHistoryManager;
 import ru.yandex.praktikum.taskmanager.tasks.Epic;
 import ru.yandex.praktikum.taskmanager.tasks.Subtask;
@@ -15,9 +16,9 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> taskHashMap = new HashMap<>();
     private HashMap<Integer, Epic> epicHashMap = new HashMap<>();
     private HashMap<Integer, Subtask> subtaskHashMap = new HashMap<>();
-    InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+    HistoryManager historyManager;
 
-    public InMemoryTaskManager(InMemoryHistoryManager historyManager) {
+    public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
 
@@ -35,7 +36,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask.getEpicId() == 0) {
             subtask.setTaskId(id++);
             subtaskHashMap.put(subtask.getTaskId(), subtask);
-            updateEpicStatus(epicHashMap.get(subtask.getEpicId()));
+             updateEpicStatus(epicHashMap.get(subtask.getEpicId())); //если эту строчку оставить, то будет NullPointer
+            // exception, так как эпик будет равен null
         } else {
             System.out.println("Подзадача не может существовать без эпика");
         }
@@ -109,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeEpicById(int id) {
         if (epicHashMap.containsKey(id)) {
             Epic epic = epicHashMap.get(id);
-            for(int i: epic.getSubtaskId()) { // в прошлый раз нужно было добавить удаление сабтасков при удалении эпика
+            for (int i : epic.getSubtaskId()) { // в прошлый раз нужно было добавить удаление сабтасков при удалении эпика
                 subtaskHashMap.remove(i);
             }
             epicHashMap.remove(id);
